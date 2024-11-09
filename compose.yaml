@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    restart: always
+    container_name: postgres-open-library
+    environment:
+      - 'POSTGRES_DB=library'
+      - 'POSTGRES_PASSWORD=12345'
+    ports:
+      - '5432:5432'
