@@ -20,6 +20,7 @@ public class Cliente {
 
     @Id
     @Column(name = "idCliente", nullable = false,unique = true)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Short id;
     @Setter
     private String nombre;
@@ -37,6 +38,14 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Prestamo> prestamos = new ArrayList<>();
+
+    /*
+     * Relacion unidireccional uno a uno [cliente(1) --> user(1)], un cliente tiene un user,
+     * y un user pertenecen unicamente a un cliente
+     */
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_userFK", nullable = false,unique = true)
+    private UserEntity user;
 
     public Cliente() {
     }

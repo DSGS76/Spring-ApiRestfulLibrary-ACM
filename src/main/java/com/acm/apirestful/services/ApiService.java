@@ -1,4 +1,4 @@
-package com.acm.apirestful.service;
+package com.acm.apirestful.services;
 
 import com.acm.apirestful.presentation.dto.AutorDTO;
 import com.acm.apirestful.presentation.dto.CategoriaDTO;

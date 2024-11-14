@@ -17,7 +17,7 @@ public class Libro {
 
     @Id
     @Column(name = "idLibro", nullable = false, unique = true)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Short id;
     private String titulo;
     private String fechaPublicacion;

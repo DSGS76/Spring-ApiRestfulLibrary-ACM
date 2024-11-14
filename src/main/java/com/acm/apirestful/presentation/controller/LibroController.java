@@ -1,7 +1,7 @@
 package com.acm.apirestful.presentation.controller;
 
 import com.acm.apirestful.presentation.dto.LibraryDTO;
-import com.acm.apirestful.service.LibroService;
+import com.acm.apirestful.services.LibroService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

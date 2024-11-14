@@ -24,6 +24,7 @@ public class Prestamo {
 
     @Id
     @Column(name = "idPrestamo",nullable = false,unique = true)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Short id;
     @Setter
     private LocalDate fechaInicioPrestamo;

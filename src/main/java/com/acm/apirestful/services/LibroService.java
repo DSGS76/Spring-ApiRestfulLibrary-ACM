@@ -1,4 +1,4 @@
-package com.acm.apirestful.service;
+package com.acm.apirestful.services;
 
 import com.acm.apirestful.persistence.entity.Autor;
 import com.acm.apirestful.persistence.entity.Categoria;
@@ -37,7 +37,7 @@ public class LibroService {
         if (libroSearch.isEmpty()) {
             LibraryDTO libroDTO = apiService.searchLibraryByCategoria(nombreCategoria);
             if (libroDTO != null) {
-                if (existeLibro(libroDTO)) {
+                if (!existeLibro(libroDTO)) {
                     guardarLibro(libroDTO);
                     libros.add(libroDTO);
                     log.info("Se encontraron libros y fueron guardados.");
@@ -66,7 +66,7 @@ public class LibroService {
         if (libroSearch.isEmpty()) {
             LibraryDTO libroDTO = apiService.searchLibraryByTitulo(titulo);
             if (libroDTO != null) {
-                if (existeLibro(libroDTO)) {
+                if (!existeLibro(libroDTO)) {
                     guardarLibro(libroDTO);
                     libros.add(libroDTO);
                     log.info("Se encontraron libros y fueron guardados.");
@@ -95,7 +95,7 @@ public class LibroService {
         if (libroSearch.isEmpty()) {
             LibraryDTO libroDTO = apiService.searchLibraryByAutor(nombreAutor);
             if (libroDTO != null) {
-                if (existeLibro(libroDTO)) {
+                if (!existeLibro(libroDTO)) {
                     guardarLibro(libroDTO);
                     libros.add(libroDTO);
                     log.info("Se encontraron libros y fueron guardados.");
