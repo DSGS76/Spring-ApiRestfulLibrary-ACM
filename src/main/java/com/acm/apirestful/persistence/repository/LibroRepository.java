@@ -17,8 +17,13 @@ public interface LibroRepository extends JpaRepository<Libro, Short> {
 
     List<Libro> findLibrosByAutorNombreLike(String nombre);
 
-    @Query(value = "select l from Libro l join l.prestamos p where p.cliente.id=:#{#idCliente}")
-    List<Libro> findLibrosByClienteId(@Param("idCliente") Short idCliente );
+    @Query("""
+        select p.libros
+        FROM Prestamo p
+        JOIN p.cliente c on c.id =:idCliente
+        WHERE p.id =:idPrestamo
+    """)
+    List<Libro> findByPrestamoAndCliente(Short idCliente, Short idPrestamo);
 
     List<Libro> findLibrosByTituloLike(String titulo);
 

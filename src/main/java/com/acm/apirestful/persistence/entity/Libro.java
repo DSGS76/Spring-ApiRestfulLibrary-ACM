@@ -16,8 +16,8 @@ import java.util.Set;
 public class Libro {
 
     @Id
-    @Column(name = "idLibro", nullable = false, unique = true)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @Column(name = "id_libro", nullable = false, unique = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Short id;
     private String titulo;
     private String fechaPublicacion;
@@ -53,10 +53,10 @@ public class Libro {
      */
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(
-            name = "PrestamoLibro",
-            joinColumns = {@JoinColumn(name = "idLibro")},//nombre de la clave foranea asociada al id de esta entidad,
+            name = "prestamo_libro",
+            joinColumns = {@JoinColumn(name = "id_libro")},//nombre de la clave foranea asociada al id de esta entidad,
             // que se creará en la tabla de rompimiento
-            inverseJoinColumns = {@JoinColumn(name = "idPrestamo")}//nombre de la clave foranea asociada al id de la otra entidad de la relacion,
+            inverseJoinColumns = {@JoinColumn(name = "id_prestamo")}//nombre de la clave foranea asociada al id de la otra entidad de la relacion,
             // que se creará en la tabla de rompimiento
     )
     private Set<Prestamo> prestamos = new HashSet<>();

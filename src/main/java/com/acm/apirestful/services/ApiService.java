@@ -67,7 +67,11 @@ public class ApiService {
         StringBuilder searchStr = new StringBuilder();
         searchStr.append(libraryApiBaseUrl);
         log.info(libraryApiBaseUrl);
-        searchStr.append("/search.json?").append(criterio).append("=").append(nombreCriterio);
+        searchStr.append("/search.json?")
+                .append(criterio)
+                .append("=")
+                .append(nombreCriterio)
+                .append("&fields=key,author_key,subject_key&limit=1");
         return restTemplate.getForObject(searchStr.toString(), JsonNode.class);
     }
 
@@ -130,7 +134,8 @@ public class ApiService {
 
             StringBuilder autorStr = new StringBuilder();
             autorStr.append(libraryApiBaseUrl);
-            autorStr.append("/author/").append(key);
+            autorStr.append("/author/")
+                    .append(key);
             log.info(autorStr.toString());
             return restTemplate.getForObject(autorStr.toString(), AutorDTO.class);
 
@@ -145,7 +150,8 @@ public class ApiService {
 
             StringBuilder categoriaStr = new StringBuilder();
             categoriaStr.append(libraryApiBaseUrl);
-            categoriaStr.append("/subjects/").append(key);
+            categoriaStr.append("/subjects/")
+                        .append(key);
             log.info(categoriaStr.toString());
             return restTemplate.getForObject(categoriaStr.toString(), CategoriaDTO.class);
 

@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PrestamoRepository extends JpaRepository<Prestamo, Short> {
+
+    boolean existsByIdAndClienteUserUsername(Short id, String username);
+
 }
