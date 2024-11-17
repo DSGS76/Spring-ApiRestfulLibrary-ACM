@@ -28,14 +28,21 @@ public final class Constants {
     }
 
     public static class Global{
-        public static final String API_VERSION = "/v1";
         public static final String API_BASE_PATH = "/api";
+        public static final String API_VERSION = "/v1";
+        public static final String API_LOGIN = "/login";
         private Global(){}
     }
 
     public static class Libro{
         public static final String LIBRO_SERVICE_PATH = "/libro";
-        public static final String LIBRO_SERVICE_PATH_TITLE = "/{title}";
+        public static final String LIBRO_SERVICE_PATH_SAVE = "/guardar";
+        public static final String LIBRO_SERVICE_PATH_UPDATE = "/actualizar";
+        public static final String LIBRO_SERVICE_PATH_DELETE = "/eliminar";
+        public static final String LIBRO_SERVICE_PATH_TITLE = "/buscarPorTitulo";
+        public static final String LIBRO_SERVICE_PATH_AUTHOR = "/buscarPorAutor";
+        public static final String LIBRO_SERVICE_PATH_SUBJECT = "/buscarPorCategoria";
+        public static final String LIBRO_SERVICE_PATH_LENDING = "/buscarPorPrestamo";
         private Libro(){}
     }
 
@@ -57,6 +64,7 @@ public final class Constants {
         public static final String FORMAT_DATE_3 = "yyyy-MM-dd";
 
         public static final String FORMAT_HOUR_1 = "HH:mm:ss";
+
         public static final String FORMAT_AMOUNT_1 = "'$'###,###,###";
 
         private Formats(){}

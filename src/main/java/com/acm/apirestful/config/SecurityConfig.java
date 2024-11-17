@@ -1,5 +1,6 @@
 package com.acm.apirestful.config;
 
+import com.acm.apirestful.utils.Constants;
 import com.acm.apirestful.utils.filters.JwtAuthenticationFilter;
 import com.acm.apirestful.utils.filters.JwtAuthorizationFilter;
 import com.acm.apirestful.utils.filters.JwtUtils;
@@ -35,13 +36,18 @@ public class SecurityConfig {
                                                    AuthenticationManager authenticationManager) throws Exception {
         JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(jwtUtils);
         authenticationFilter.setAuthenticationManager(authenticationManager);
-        authenticationFilter.setFilterProcessesUrl("/login");
+        authenticationFilter.setFilterProcessesUrl(Constants.Global.API_BASE_PATH
+                                                    + Constants.Global.API_VERSION
+                                                    + Constants.Global.API_LOGIN);
         return http
+                .authenticationProvider(authenticationProvider())
                 .csrf(c -> {
                     c.disable();
                 })
                 .authorizeHttpRequests(auth ->{
-                    auth.requestMatchers("/login").permitAll();
+                    auth.requestMatchers(Constants.Global.API_BASE_PATH
+                                        + Constants.Global.API_VERSION
+                                        + Constants.Global.API_LOGIN).permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(s -> {
@@ -53,7 +59,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authorizationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

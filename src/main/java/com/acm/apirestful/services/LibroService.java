@@ -3,12 +3,15 @@ package com.acm.apirestful.services;
 import com.acm.apirestful.persistence.entity.Autor;
 import com.acm.apirestful.persistence.entity.Categoria;
 import com.acm.apirestful.persistence.entity.Libro;
+import com.acm.apirestful.persistence.repository.AutorRepository;
+import com.acm.apirestful.persistence.repository.CategoriaRepository;
 import com.acm.apirestful.persistence.repository.LibroRepository;
 import com.acm.apirestful.persistence.repository.PrestamoRepository;
-import com.acm.apirestful.presentation.dto.AutorDTO;
-import com.acm.apirestful.presentation.dto.CategoriaDTO;
-import com.acm.apirestful.presentation.dto.LibraryDTO;
-import com.acm.apirestful.presentation.dto.LibroDTO;
+import com.acm.apirestful.presentation.dto.ApiResponseDTO;
+import com.acm.apirestful.presentation.dto.libro.AutorDTO;
+import com.acm.apirestful.presentation.dto.libro.CategoriaDTO;
+import com.acm.apirestful.presentation.dto.libro.LibraryDTO;
+import com.acm.apirestful.presentation.dto.libro.LibroDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,38 +23,80 @@ import java.util.List;
 public class LibroService {
 
     private final LibroRepository libroRepository;
+    private final AutorRepository autorRepository;
+    private final CategoriaRepository categoriaRepository;
     private final ApiService apiService;
     private final PrestamoRepository prestamoRepository;
 
-    public LibroService(LibroRepository libroRepository, ApiService apiService, PrestamoRepository prestamoRepository) {
+    public LibroService(LibroRepository libroRepository,
+                        AutorRepository autorRepository,
+                        CategoriaRepository categoriaRepository,
+                        ApiService apiService,
+                        PrestamoRepository prestamoRepository) {
         this.libroRepository = libroRepository;
+        this.autorRepository = autorRepository;
+        this.categoriaRepository = categoriaRepository;
         this.apiService = apiService;
         this.prestamoRepository = prestamoRepository;
     }
 
-    public void eliminarLibroByTitulo(String titulo) {
-        libroRepository.deleteLibroByTitulo(titulo);
+    public ApiResponseDTO<LibraryDTO> eliminarLibroByTitulo(String titulo) {
+        ApiResponseDTO<LibraryDTO> response = new ApiResponseDTO<>();
+        var libro = libroRepository.findLibroByTitulo(titulo);
+        var resultado = libroRepository.deleteLibroByTitulo(titulo);
+        if (resultado == 0) {
+            response.FailedOperation();
+            return response;
+        }
+        LibraryDTO dto = mapToDTO(libro);
+        response.SuccessOperation(dto);
+        return response;
     }
 
-    public void actualizarLibroByTitulo(Libro libro, String titulo) {
+    public ApiResponseDTO<LibraryDTO> actualizarLibroByTitulo(LibraryDTO request, String titulo) {
+        ApiResponseDTO<LibraryDTO> response = new ApiResponseDTO<>();
+        var libro = libroRepository.findLibroByTitulo(titulo);
+        if (libro == null) {
+            response.FailedOperation();
+            return response;
+        }
         libroRepository.updateLibroByTitulo(libro, titulo);
+        response.SuccessOperation(request);
+        return response;
     }
 
-    public void guardarLibro(Libro libro) {
+    public ApiResponseDTO<LibraryDTO> guardarLibro(LibraryDTO request) {
+        ApiResponseDTO<LibraryDTO> response = new ApiResponseDTO<>();
+        var autor = autorRepository.findByNombre(request.autor().nombre());
+        var categoria = categoriaRepository.findByNombreCategoria(request.categoria().nombreCategoria());
+        if (autor.isEmpty() || categoria.isEmpty()) {
+            response.FailedOperation();
+            return response;
+        }
+        Libro libro = mapToEntity(request);
         libroRepository.save(libro);
+        response.SuccessOperation(request);
+        return response;
     }
 
-    public List<LibraryDTO> searchLibrosByPrestamo(Short idPrestamo, Short idCliente) {
+    public ApiResponseDTO<List<LibraryDTO>> searchLibrosByPrestamo(Short idPrestamo, Short idCliente) {
+        ApiResponseDTO<List<LibraryDTO>> response = new ApiResponseDTO<>();
         List<Libro> libroSearch = libroRepository.findByPrestamoAndCliente(idPrestamo, idCliente);
+        if (libroSearch.isEmpty()) {
+            response.FailedOperation();
+            return response;
+        }
         List<LibraryDTO> libros = new ArrayList<>();
         for (Libro l: libroSearch) {
             LibraryDTO libro = mapToDTO(l);
             libros.add(libro);
         }
-        return libros;
+        response.SuccessOperation(libros);
+        return response;
     }
 
-    public List<LibraryDTO> searchLibrosByPrestamo(Short idPrestamo, Short idCliente, String username) {
+    public ApiResponseDTO<List<LibraryDTO>> searchLibrosByPrestamo(Short idPrestamo, Short idCliente, String username) {
+        ApiResponseDTO<List<LibraryDTO>> response = new ApiResponseDTO<>();
         boolean perteneceCliente = prestamoRepository.existsByIdAndClienteUserUsername(idPrestamo, username);
 
         if (perteneceCliente) {
@@ -61,12 +106,15 @@ public class LibroService {
                 LibraryDTO libro = mapToDTO(l);
                 libros.add(libro);
             }
-            return libros;
+            response.SuccessOperation(libros);
+            return response;
         }
-        return null;
+        response.FailedOperation();
+        return response;
     }
 
-    public List<LibraryDTO> searchLibrosByCategoria(String nombreCategoria) {
+    public ApiResponseDTO<List<LibraryDTO>> searchLibrosByCategoria(String nombreCategoria) {
+        ApiResponseDTO<List<LibraryDTO>> response = new ApiResponseDTO<>();
         List<Libro> libroSearch = libroRepository.findLibrosByCategoriaNombreCategoriaLike(nombreCategoria);
         List<LibraryDTO> libros = new ArrayList<>();
 
@@ -81,21 +129,24 @@ public class LibroService {
                     libros.add(libroDTO);
                     log.info("Se encontraron libros y fueron guardados.");
                 }
-                return libros;
+                response.SuccessOperation(libros);
+                return response;
             }
-            log.info("No se encontraron libros.");
-            return null;
+            response.FailedOperation();
+            return response;
         } else {
             for (Libro l: libroSearch) {
                 LibraryDTO libro = mapToDTO(l);
                 libros.add(libro);
             }
             log.info("Se encontraron libros ya guardados.");
-            return libros;
+            response.SuccessOperation(libros);
+            return response;
         }
     }
 
-    public List<LibraryDTO> searchLibrosByTitulo(String titulo) {
+    public ApiResponseDTO<List<LibraryDTO>> searchLibrosByTitulo(String titulo) {
+        ApiResponseDTO<List<LibraryDTO>> response = new ApiResponseDTO<>();
         List<Libro> libroSearch = libroRepository.findLibrosByTituloLike(titulo);
         List<LibraryDTO> libros = new ArrayList<>();
 
@@ -110,21 +161,25 @@ public class LibroService {
                     libros.add(libroDTO);
                     log.info("Se encontraron libros y fueron guardados.");
                 }
-                return libros;
+                response.SuccessOperation(libros);
+                return response;
             }
             log.info("No se encontraron libros.");
-            return null;
+            response.FailedOperation();
+            return response;
         } else {
             for (Libro l: libroSearch) {
                 LibraryDTO libro = mapToDTO(l);
                 libros.add(libro);
             }
             log.info("Se encontraron libros ya guardados.");
-            return libros;
+            response.SuccessOperation(libros);
+            return response;
         }
     }
 
-    public List<LibraryDTO> searchLibrosByAutor(String nombreAutor) {
+    public ApiResponseDTO<List<LibraryDTO>> searchLibrosByAutor(String nombreAutor) {
+        ApiResponseDTO<List<LibraryDTO>> response = new ApiResponseDTO<>();
         List<Libro> libroSearch = libroRepository.findLibrosByAutorNombreLike(nombreAutor);
         List<LibraryDTO> libros = new ArrayList<>();
 
@@ -139,17 +194,20 @@ public class LibroService {
                     libros.add(libroDTO);
                     log.info("Se encontraron libros y fueron guardados.");
                 }
-                return libros;
+                response.SuccessOperation(libros);
+                return response;
             }
             log.info("No se encontraron libros.");
-            return null;
+            response.FailedOperation();
+            return response;
         } else {
             for (Libro l: libroSearch) {
                 LibraryDTO libro = mapToDTO(l);
                 libros.add(libro);
             }
             log.info("Se encontraron libros ya guardados.");
-            return libros;
+            response.SuccessOperation(libros);
+            return response;
         }
     }
 

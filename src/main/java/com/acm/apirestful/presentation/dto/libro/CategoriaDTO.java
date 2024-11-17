@@ -1,4 +1,4 @@
-package com.acm.apirestful.presentation.dto;
+package com.acm.apirestful.presentation.dto.libro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

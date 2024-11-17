@@ -25,6 +25,8 @@ public interface LibroRepository extends JpaRepository<Libro, Short> {
     """)
     List<Libro> findByPrestamoAndCliente(Short idCliente, Short idPrestamo);
 
+    Libro findLibroByTitulo(String titulo);
+
     List<Libro> findLibrosByTituloLike(String titulo);
 
     @Modifying
@@ -38,5 +40,5 @@ public interface LibroRepository extends JpaRepository<Libro, Short> {
 
     @Modifying
     @Transactional
-    void deleteLibroByTitulo(String titulo);
+    Integer deleteLibroByTitulo(String titulo);
 }

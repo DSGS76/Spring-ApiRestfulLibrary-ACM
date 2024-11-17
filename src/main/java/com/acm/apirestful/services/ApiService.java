@@ -1,9 +1,9 @@
 package com.acm.apirestful.services;
 
-import com.acm.apirestful.presentation.dto.AutorDTO;
-import com.acm.apirestful.presentation.dto.CategoriaDTO;
-import com.acm.apirestful.presentation.dto.LibraryDTO;
-import com.acm.apirestful.presentation.dto.LibroDTO;
+import com.acm.apirestful.presentation.dto.libro.AutorDTO;
+import com.acm.apirestful.presentation.dto.libro.CategoriaDTO;
+import com.acm.apirestful.presentation.dto.libro.LibraryDTO;
+import com.acm.apirestful.presentation.dto.libro.LibroDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
