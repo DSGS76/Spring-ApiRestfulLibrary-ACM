@@ -84,6 +84,7 @@ public class LibroService {
         List<Libro> libroSearch = libroRepository.findByPrestamoAndCliente(idPrestamo, idCliente);
         if (libroSearch.isEmpty()) {
             response.FailedOperation();
+            log.info("no se encontraron libros");
             return response;
         }
         List<LibraryDTO> libros = new ArrayList<>();
@@ -110,6 +111,7 @@ public class LibroService {
             return response;
         }
         response.FailedOperation();
+        log.info("no se encontraron libros o pertenecientes al usuario");
         return response;
     }
 

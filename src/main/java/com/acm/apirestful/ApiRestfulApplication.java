@@ -29,7 +29,9 @@ public class ApiRestfulApplication {
 
 	@Bean
 	@Order(1)
-	ApplicationRunner applicationRunner(ClienteRepository clienteRepository) {
+	ApplicationRunner applicationRunner(ClienteRepository clienteRepository,
+										LibroRepository libroRepository,
+										PrestamoRepository prestamoRepository) {
 		return args -> {
 			Cliente c = Cliente.builder()
 					.nombre("Jose")
@@ -46,12 +48,24 @@ public class ApiRestfulApplication {
 					.build();
 			log.info(c.toString());
 			clienteRepository.save(c);
+
+//			Set<Libro> l = new HashSet<>(libroRepository.findAllById(Set.of((short) 1,(short) 2)));
+//
+//			Prestamo p = Prestamo.builder()
+//					.fechaInicioPrestamo(LocalDate.now())
+//					.fechaFinPrestamo(LocalDate.now().plusDays(15))
+//					.libros(l)
+//					.cliente(c)
+//					.build();
+//			prestamoRepository.save(p);
 		};
 	}
 
 	@Bean
 	@Order(2)
-	ApplicationRunner applicationRunner2(ClienteRepository clienteRepository) {
+	ApplicationRunner applicationRunner2(ClienteRepository clienteRepository,
+										 LibroRepository libroRepository,
+										 PrestamoRepository prestamoRepository) {
 		return args -> {
 			Cliente c = Cliente.builder()
 					.nombre("Maria")
@@ -68,6 +82,16 @@ public class ApiRestfulApplication {
 					.build();
 			log.info(c.toString());
 			clienteRepository.save(c);
+
+//			Set<Libro> l = new HashSet<>(libroRepository.findAllById(Set.of((short) 3,(short) 4)));
+//
+//			Prestamo p = Prestamo.builder()
+//					.fechaInicioPrestamo(LocalDate.now().plusMonths(1))
+//					.fechaFinPrestamo(LocalDate.now().plusMonths(1).plusDays(15))
+//					.libros(l)
+//					.cliente(c)
+//					.build();
+//			prestamoRepository.save(p);
 		};
 	}
 }
