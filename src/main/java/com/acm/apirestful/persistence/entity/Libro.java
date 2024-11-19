@@ -16,8 +16,8 @@ import java.util.Set;
 public class Libro {
 
     @Id
-    @Column(name = "id_libro", nullable = false, unique = true)
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "idLibro", nullable = false, unique = true)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Short id;
     private String titulo;
     private String fechaPublicacion;

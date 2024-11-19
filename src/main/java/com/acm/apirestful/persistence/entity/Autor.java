@@ -16,7 +16,7 @@ public class Autor implements Serializable {
 
     @Id
     @Column(name = "idAutor", nullable = false, unique = true)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Short id;
     private String nombre;
     private String biografia;

@@ -16,7 +16,7 @@ public class Categoria implements Serializable {
 
     @Id
     @Column(name = "idCategoria", nullable = false, unique = true)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Short id;
     private String nombreCategoria;
     private String descripcion;

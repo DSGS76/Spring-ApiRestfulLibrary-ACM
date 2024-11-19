@@ -1,11 +1,10 @@
 package com.acm.apirestful;
 
-import com.acm.apirestful.persistence.entity.Cliente;
-import com.acm.apirestful.persistence.entity.Prestamo;
-import com.acm.apirestful.persistence.entity.Role;
-import com.acm.apirestful.persistence.entity.UserEntity;
+import com.acm.apirestful.persistence.entity.*;
 import com.acm.apirestful.persistence.entity.enums.EnumRol;
 import com.acm.apirestful.persistence.repository.ClienteRepository;
+import com.acm.apirestful.persistence.repository.LibroRepository;
+import com.acm.apirestful.persistence.repository.PrestamoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +15,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication

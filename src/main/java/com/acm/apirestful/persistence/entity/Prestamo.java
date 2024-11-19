@@ -2,10 +2,7 @@ package com.acm.apirestful.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -20,11 +17,13 @@ import java.util.Set;
         "fechaInicioPrestamo",
         "fechaFinPrestamo"
 })
+@AllArgsConstructor
+@Builder
 public class Prestamo {
 
     @Id
     @Column(name = "idPrestamo",nullable = false,unique = true)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Short id;
     @Setter
     private LocalDate fechaInicioPrestamo;
@@ -49,17 +48,5 @@ public class Prestamo {
     @JsonIgnore
     @ManyToMany(mappedBy = "prestamos", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Libro> libros = new HashSet<>();
-
-    public Prestamo(Short id, LocalDate fechaInicioPrestamo, LocalDate fechaFinPrestamo) {
-        this.id = id;
-        this.fechaInicioPrestamo = fechaInicioPrestamo;
-        this.fechaFinPrestamo = fechaFinPrestamo;
-    }
-    public Prestamo(Short id, LocalDate fechaInicioPrestamo, LocalDate fechaFinPrestamo, Cliente cliente) {
-        this.id = id;
-        this.fechaInicioPrestamo = fechaInicioPrestamo;
-        this.fechaFinPrestamo = fechaFinPrestamo;
-        this.cliente = cliente;
-    }
 
 }

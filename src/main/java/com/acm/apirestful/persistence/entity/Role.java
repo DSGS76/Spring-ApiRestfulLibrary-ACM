@@ -15,6 +15,7 @@ import lombok.*;
 public class Role {
 
     @Id
+    @Column(name = "idRole",nullable = false,unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
