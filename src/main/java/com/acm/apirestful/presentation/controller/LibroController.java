@@ -25,7 +25,7 @@ public class LibroController {
 
     private final LibroService libroService;
 
-    @GetMapping(Constants.Libro.LIBRO_SERVICE_PATH_AUTHOR)
+    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_AUTHOR)
     @PreAuthorize("""
                     hasAnyRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN,
                                 T(com.acm.apirestful.utils.Constants$User).USER_ROLE_CLIENT)
@@ -35,7 +35,7 @@ public class LibroController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
-    @GetMapping(Constants.Libro.LIBRO_SERVICE_PATH_SUBJECT)
+    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_SUBJECT)
     @PreAuthorize("""
                     hasAnyRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN,
                                 T(com.acm.apirestful.utils.Constants$User).USER_ROLE_CLIENT)
@@ -45,7 +45,7 @@ public class LibroController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
-    @GetMapping(Constants.Libro.LIBRO_SERVICE_PATH_TITLE)
+    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_TITLE)
     @PreAuthorize("""
                     hasAnyRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN,
                                 T(com.acm.apirestful.utils.Constants$User).USER_ROLE_CLIENT)
@@ -55,7 +55,7 @@ public class LibroController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
-    @GetMapping(Constants.Libro.LIBRO_SERVICE_PATH_LENDING)
+    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_LENDING)
     @PreAuthorize("""
                     hasAnyRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN,
                                 T(com.acm.apirestful.utils.Constants$User).USER_ROLE_CLIENT)
@@ -78,21 +78,21 @@ public class LibroController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
-    @GetMapping(Constants.Libro.LIBRO_SERVICE_PATH_UPDATE)
+    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_UPDATE)
     @PreAuthorize("hasRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN)")
     public ResponseEntity<?> actualizarLibroPorTitulo(@RequestParam LibraryDTO libraryDTO, @RequestParam String titulo) {
         ApiResponseDTO<LibraryDTO> response = libroService.actualizarLibroByTitulo(libraryDTO, titulo);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
-    @GetMapping(Constants.Libro.LIBRO_SERVICE_PATH_DELETE)
+    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_DELETE)
     @PreAuthorize("hasRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN)")
     public ResponseEntity<?> eliminarLibroPorTitulo(@RequestParam String titulo) {
         ApiResponseDTO<LibraryDTO> response = libroService.eliminarLibroByTitulo(titulo);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
-    @GetMapping(Constants.Libro.LIBRO_SERVICE_PATH_SAVE)
+    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_SAVE)
     @PreAuthorize("hasRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN)")
     public ResponseEntity<?> guardarLibro(@RequestParam LibraryDTO libraryDTO) {
         ApiResponseDTO<LibraryDTO> response = libroService.guardarLibro(libraryDTO);
