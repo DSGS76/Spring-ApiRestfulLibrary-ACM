@@ -78,7 +78,7 @@ public class LibroController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
-    @PostMapping(Constants.Libro.LIBRO_SERVICE_PATH_UPDATE)
+    @PutMapping(Constants.Libro.LIBRO_SERVICE_PATH_UPDATE)
     @PreAuthorize("hasRole(T(com.acm.apirestful.utils.Constants$User).USER_ROLE_ADMIN)")
     public ResponseEntity<?> actualizarLibroPorTitulo(@RequestParam LibraryDTO libraryDTO, @RequestParam String titulo) {
         ApiResponseDTO<LibraryDTO> response = libroService.actualizarLibroByTitulo(libraryDTO, titulo);
